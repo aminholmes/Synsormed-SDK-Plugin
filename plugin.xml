@@ -1,0 +1,107 @@
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	id="com.synsormed.sdkplugin"
+	version="1.0.1">
+
+
+	<name>SDK_Plugin</name>
+	<description>SDK plugin for sensors</description>
+	<author>SynsorMed</author>
+	<license>SynsorMed</license>
+	<repo>https://github.com/aminholmes/Synsormed-SDK-Plugin.git</repo>
+	
+	<engines>
+		<engine name="cordova" version=">=3.1.0" />
+	</engines>
+
+
+	<js-module src="www/SDKsensors.js" name="sdkPlugin">
+		<clobbers target="sdkPlugin" />
+	</js-module>
+
+	<platform name="android">
+	
+		<source-file src="android/sdkAndroidPlugin.java" target-dir="src/com/synsormed/mobile/" />
+
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="sdkPlugin">
+				<param name="android-package" value="com.synsormed.mobile.sdkAndroidPlugin" />
+			</feature>
+		</config-file>
+<!--		
+		<framework src="com.android.support:appcompat-v7:22.2.1" />
+		<framework src="com.android.support:recyclerview-v7:21+" />
+		<framework src="com.android.support:design:22.2.1" />
+		<framework src="com.android.support:support-v4:21+" />
+
+		<config-file target="AndroidManifest.xml" parent="/manifest">
+			<uses-permission android:name="android.permission.INTERNET" />
+			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+			<uses-permission android:name="android.permission.RECORD_AUDIO" />
+			<uses-permission android:name="android.permission.CAMERA" />
+			<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+			<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+		
+		</config-file>
+
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+			<activity
+				android:name="com.synsormed.sensors.sdkCommunication"
+				android:theme="@style/weemo_call_theme"
+				android:screenOrientation="portrait">
+			</activity>
+			<activity
+				android:name="com.quickblox.sample.groupchatwebrtc.activities.CallActivity"
+            	android:configChanges="keyboardHidden|screenSize|orientation"
+            	android:screenOrientation="portrait"
+            	android:theme="@android:style/Theme.NoTitleBar">
+            </activity>
+		</config-file>
+-->
+	</platform>
+
+<!-- IOS Settings -->
+	<platform name="ios">
+
+	    <header-file src="ios/sdkIOSPlugin.h" />
+		<source-file src="ios/sdkIOSPlugin.m" />
+
+		<config-file target="config.xml" parent="/*">
+			<feature name="sdkPlugin">
+				<param name="ios-package" value="sdkIOSPlugin" />
+			</feature>
+		</config-file>
+<!--
+		<resource-file src="ios/res/images.xcassets" />
+		<resource-file src="ios/res/pictures.xcassets" />
+		<resource-file src="ios/res/VideoCall.storyboard" />
+		
+		
+		<framework src="libicucore.tbd" />	
+		<framework src="libz.tbd" />
+		<framework src="libc++.tbd" />
+		<framework src="libresolv.tbd" />
+		<framework src="libxml2.2.tbd" />
+		<framework src="CFNetwork.framework" />
+		<framework src="GLKit.framework" />
+		<framework src="MobileCoreServices.framework" />
+		<framework src="SystemConfiguration.framework" />
+		<framework src="VideoToolbox.framework" />
+		<framework src="AudioToolbox.framework" />
+		<framework src="Accelerate.framework" />
+		<framework src="CoreGraphics.framework" />
+		<framework src="CoreLocation.framework" />
+		<framework src="CoreData.framework" />
+		<framework src="CoreMedia.framework" />
+		<framework src="CoreMotion.framework" />
+		<framework src="CoreTelephony.framework" />
+		<framework src="CoreVideo.framework" />
+		<framework src="AVFoundation.framework" />
+		<framework src="QuartzCore.framework" />
+		<framework src="Security.framework" />
+
+		<framework src="ios/libs/Quickblox.framework" custom="true" />
+		<framework src="ios/libs/QuickbloxWebRTC.framework" custom="true" />		
+-->
+	</platform>
+</plugin>
