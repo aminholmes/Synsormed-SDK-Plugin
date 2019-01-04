@@ -16,12 +16,23 @@ import com.creative.bluetooth.ble.IBLECallBack;
 
 public class sdkPlugin extends CordovaPlugin {
 
+
+	private BLEOpertion mBleOpertion;
+
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
 
         if (action.equals("sayHello")) {
 
         	Log.d("AminLog", "I am trying to say hello");
+        	try {
+				mBleOpertion = new BLEOpertion(this, new BleCallBack());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			mBleOpertion.startDisover();
+
             String message = "Hello, Amin" ;
             callbackContext.success(message);
 
