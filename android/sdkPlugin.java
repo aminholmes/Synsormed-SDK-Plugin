@@ -59,6 +59,63 @@ public class sdkPlugin extends CordovaPlugin {
 			System.out.println("onDiscoveryCompleted");
 		}
 
+		@Override
+		public void onFindDevice(final blePort port) {
+			System.out.println("搜索到设备：" + port._device.getAddress() + "  " + port._device.getName());
+			
+			myHandler.obtainMessage(MSG_BLUETOOTH_STATE,"搜索到设备：" + port._device.getAddress() + "  " + port._device.getName() + " " /*+ port.devInfo*/)
+					.sendToTarget();
+			if ("PC-60NW-1".equals(port._device.getName().trim())||
+					"POD".equals(port._device.getName().trim())||
+					"PC-68B".equals(port._device.getName().trim()) ) {
+				mBleOpertion.stopDiscover();
+				myHandler.obtainMessage(MSG_BLUETOOTH_STATE, "开始连接").sendToTarget();
+				new Thread() {
+
+					@Override
+					public void run() {
+						super.run();
+						mBleOpertion.connect(port);
+					}
+				}.start();
+			}
+		}
+
+		@Override
+		public void onConnected(blePort port) {
+			myHandler.obtainMessage(MSG_BLUETOOTH_STATE, "连接成功：" + port._device.getName()).sendToTarget();
+			mFingerOximeter = new FingerOximeter(new BLEReader(mBleOpertion), new BLESender(mBleOpertion), new FingerOximeterCallBack());
+			mFingerOximeter.Start();
+			//发送波形请求
+			mFingerOximeter.SetWaveAction(true);
+		}
+
+		@Override
+		public void onConnectFail() {
+			myHandler.obtainMessage(MSG_BLUETOOTH_STATE, "连接失败").sendToTarget();
+			if (mFingerOximeter != null)
+				mFingerOximeter.Stop();
+			mFingerOximeter = null;
+		}
+
+		@Override
+		public void onSended(boolean isSend) {
+			System.out.println("发送数据:" + isSend);
+			myHandler.obtainMessage(MSG_BLUETOOTH_STATE, "发送数据:" + isSend).sendToTarget();
+		}
+
+		@Override
+		public void onDisConnect(blePort prot) {
+			myHandler.obtainMessage(MSG_BLUETOOTH_STATE, "连接断开").sendToTarget();
+			mFingerOximeter.Stop();
+			mFingerOximeter = null;
+		}
+
+		@Override
+		public void onReadyForUse() {
+			System.out.println("onReadyForUse");
+		}
+
 
     }
 
