@@ -51,7 +51,7 @@ public class sdkPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
 
-    	final String podString = "84:EB:18:7B:79:38";
+    	
 
         if (action.equals("sayHello")) {
 
@@ -68,7 +68,8 @@ public class sdkPlugin extends CordovaPlugin {
 				@Override
 				public void run() {
 					super.run();
-					Log.d("AminLog","About to try to connect to address");
+					final String podString = "84:EB:18:7B:79:38";
+					Log.d("AminLog","About to try to connect to address: " + podString);
 					mBleOpertion.connect(podString);
 				}
 			}.start();
