@@ -36,6 +36,15 @@
 				android:name="com.synsormed.mobile.sdkPlugin">
 			</activity>
 		</config-file>
+		<config-file target="AndroidManifest.xml" parent="/manifest">
+			<uses-permission android:name="android.permission.INTERNET" />
+			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+			<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+			<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+			<uses-permission android:name="android.permission.BLUETOOTH" />
+			<uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
+			<service android:name="com.bde.parentcyTransport.ACSUtilityService" android:enabled="true" ></service>
+		</config-file>
 <!--		
 		<framework src="com.android.support:appcompat-v7:22.2.1" />
 		<framework src="com.android.support:recyclerview-v7:21+" />
