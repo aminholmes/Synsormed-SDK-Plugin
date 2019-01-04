@@ -51,6 +51,8 @@ public class sdkPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
 
+    	String podString = "84:EB:18:7B:79:38";
+
         if (action.equals("sayHello")) {
 
         	Log.d("AminLog", "I am trying to say hello");
@@ -61,7 +63,15 @@ public class sdkPlugin extends CordovaPlugin {
         		Log.d("AminLog", "BLE no where");
         	}
 
-			mBleOpertion.startDiscover();
+			new Thread() {
+
+				@Override
+				public void run() {
+					super.run();
+					Log.d("AminLog","About to try to connect to address");
+					mBleOpertion.connect(podString);
+				}
+			}.start();
 
             String message = "Hello, Amin" ;
             callbackContext.success(message);
@@ -90,10 +100,12 @@ public class sdkPlugin extends CordovaPlugin {
 
 		@Override
 		public void onConnected(blePort port) {
+			Log.d("AminLog","Successfully connected BLE");
 		}
 
 		@Override
 		public void onConnectFail() {
+			Log.d("AminLog", "Connection failed to BLE");
 		}
 
 		@Override
@@ -102,16 +114,12 @@ public class sdkPlugin extends CordovaPlugin {
 
 		@Override
 		public void onDisConnect(blePort prot) {
+			Log.d("AminLog","Was disconnected to BLE");
 		}
 
 		@Override
 		public void onReadyForUse() {
 			System.out.println("onReadyForUse");
-		}
-
-		@Override
-		public void onException(int e) {
-			Log.d("AminLog", "There was an exception with BLE scanning");
 		}
 
 
