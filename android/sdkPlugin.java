@@ -51,7 +51,7 @@ public class sdkPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
 
-    	String podString = "84:EB:18:7B:79:38";
+    	final String podString = "84:EB:18:7B:79:38";
 
         if (action.equals("sayHello")) {
 
