@@ -7,6 +7,12 @@ import java.util.List;
 
 import android.util.Log;
 import android.content.Context;
+import android.os.Bundle;
+
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaArgs;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaPlugin;
 
 import com.bde.parentcyTransport.ACSUtility.blePort;
 import com.creative.FingerOximeter.FingerOximeter;
@@ -27,7 +33,7 @@ public class sdkPlugin extends CordovaPlugin {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		context = cordova.getActivity().getApplicationContext();
+		context = this.cordova.getActivity().getApplicationContext();
 						
 		try {
 			mBleOpertion = new BLEOpertion(context, new BleCallBack());
