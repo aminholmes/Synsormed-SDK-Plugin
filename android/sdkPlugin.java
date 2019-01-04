@@ -109,6 +109,11 @@ public class sdkPlugin extends CordovaPlugin {
 			System.out.println("onReadyForUse");
 		}
 
+		@Override
+		public void onException(int e) {
+			Log.d("AminLog", "There was an exception with BLE scanning");
+		}
+
 
     }
 
