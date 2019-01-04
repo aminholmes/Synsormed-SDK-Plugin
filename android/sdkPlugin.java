@@ -21,9 +21,21 @@ public class sdkPlugin extends CordovaPlugin {
 
 
 	private BLEOpertion mBleOpertion;
+	private Context context;
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-	Context context = cordova.getActivity().getApplicationContext();
+		context = cordova.getActivity().getApplicationContext();
+						
+		try {
+			mBleOpertion = new BLEOpertion(context, new BleCallBack());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
@@ -31,11 +43,6 @@ public class sdkPlugin extends CordovaPlugin {
         if (action.equals("sayHello")) {
 
         	Log.d("AminLog", "I am trying to say hello");
-        	try {
-				mBleOpertion = new BLEOpertion(context, new BleCallBack());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 
 			mBleOpertion.startDiscover();
 
