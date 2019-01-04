@@ -30,8 +30,8 @@ public class sdkPlugin extends CordovaPlugin {
 	private Context context;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+		super.initialize(cordova,webView);
 
 		context = this.cordova.getActivity().getApplicationContext();
 						
@@ -41,6 +41,11 @@ public class sdkPlugin extends CordovaPlugin {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
 	}
 
     @Override
