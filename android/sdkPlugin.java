@@ -26,12 +26,12 @@ public class sdkPlugin extends CordovaPlugin {
 
         	Log.d("AminLog", "I am trying to say hello");
         	try {
-				mBleOpertion = new BLEOpertion(this, new BleCallBack());
+				mBleOpertion = new BLEOpertion(this, new IBleCallBack());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
-			mBleOpertion.startDisover();
+			mBleOpertion.discovery();
 
             String message = "Hello, Amin" ;
             callbackContext.success(message);
