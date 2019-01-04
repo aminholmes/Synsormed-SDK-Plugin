@@ -26,7 +26,7 @@ public class sdkPlugin extends CordovaPlugin {
 
         	Log.d("AminLog", "I am trying to say hello");
         	try {
-				mBleOpertion = new BLEOpertion(this, new IBLECallBack());
+				mBleOpertion = new BLEOpertion(this, new BleCallBack());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -44,4 +44,16 @@ public class sdkPlugin extends CordovaPlugin {
 
         }
     }
+
+
+    class BleCallBack implements IBLECallBack {
+
+    	@Override
+    	public void onDiscoveryCompleted(List<blePort> device) {
+			System.out.println("onDiscoveryCompleted");
+		}
+
+
+    }
+
 }
