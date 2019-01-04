@@ -4,6 +4,8 @@ import org.apache.cordova.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.util.Log;
+
 public class sdkPlugin extends CordovaPlugin {
 
     @Override
@@ -11,7 +13,7 @@ public class sdkPlugin extends CordovaPlugin {
 
         if (action.equals("sayHello")) {
 
-            String name = data.getString(0);
+        	Log.d("AminLog", "I am trying to say hello");
             String message = "Hello, Amin" ;
             callbackContext.success(message);
 
