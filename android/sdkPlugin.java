@@ -37,7 +37,7 @@ public class sdkPlugin extends CordovaPlugin {
 				e.printStackTrace();
 			}
 
-			mBleOpertion.discovery();
+			mBleOpertion.startDiscovery();
 
             String message = "Hello, Amin" ;
             callbackContext.success(message);
