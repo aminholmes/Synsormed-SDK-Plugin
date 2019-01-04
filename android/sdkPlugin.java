@@ -23,7 +23,7 @@ public class sdkPlugin extends CordovaPlugin {
 	private BLEOpertion mBleOpertion;
 
 
-	Context context = this.cordova.getActivity().getApplicationContext();
+	Context context = cordova.getActivity().getApplicationContext();
 
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
