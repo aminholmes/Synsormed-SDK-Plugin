@@ -74,11 +74,12 @@ public class sdkPlugin extends CordovaPlugin {
 
     	@Override
     	public void onDiscoveryCompleted(List<blePort> device) {
-			System.out.println("onDiscoveryCompleted");
+			Log.d("AminLog", "onDiscoveryCompleted");
 		}
 
 		@Override
 		public void onFindDevice(final blePort port) {
+			Log.d("AminLog", "I just found a Device");
 		}
 
 		@Override
