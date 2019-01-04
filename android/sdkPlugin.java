@@ -55,6 +55,12 @@ public class sdkPlugin extends CordovaPlugin {
 
         	Log.d("AminLog", "I am trying to say hello");
 
+        	if(mBleOpertion.isCanUseBLE(context)){
+        		Log.d("AminLog", "BLE can be used");
+        	}else{
+        		Log.d("AminLog", "BLE no where");
+        	}
+
 			mBleOpertion.startDiscover();
 
             String message = "Hello, Amin" ;
