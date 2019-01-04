@@ -37,7 +37,9 @@ public class sdkPlugin extends CordovaPlugin {
 						
 		try {
 			mBleOpertion = new BLEOpertion(context, new BleCallBack());
+			Log.d("Aminlog","I just created mBleOpertion");
 		} catch (Exception e) {
+			Log.d("Aminlog","There was an error creating mBleOpertion: " + e);
 			e.printStackTrace();
 		}
 
@@ -59,6 +61,10 @@ public class sdkPlugin extends CordovaPlugin {
 
         	if(mBleOpertion.isCanUseBLE(context)){
         		Log.d("AminLog", "BLE can be used");
+
+
+        		mBleOpertion.startDiscover();
+
         	}else{
         		Log.d("AminLog", "BLE no where");
         	}
