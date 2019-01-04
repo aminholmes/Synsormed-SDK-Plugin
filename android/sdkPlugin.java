@@ -6,7 +6,9 @@ import org.json.JSONException;
 import java.util.List;
 
 import android.util.Log;
+import android.content.Context;
 
+import com.bde.parentcyTransport.ACSUtility.blePort;
 import com.creative.FingerOximeter.FingerOximeter;
 import com.creative.FingerOximeter.IFingerOximeterCallBack;
 import com.creative.base.BLEReader;
@@ -20,6 +22,9 @@ public class sdkPlugin extends CordovaPlugin {
 
 	private BLEOpertion mBleOpertion;
 
+
+	Context context = this.cordova.getActivity().getApplicationContext();
+
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
 
@@ -27,7 +32,7 @@ public class sdkPlugin extends CordovaPlugin {
 
         	Log.d("AminLog", "I am trying to say hello");
         	try {
-				mBleOpertion = new BLEOpertion(this, new BleCallBack());
+				mBleOpertion = new BLEOpertion(context, new BleCallBack());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
