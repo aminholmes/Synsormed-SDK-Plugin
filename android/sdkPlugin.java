@@ -6,6 +6,14 @@ import org.json.JSONException;
 
 import android.util.Log;
 
+import com.creative.FingerOximeter.FingerOximeter;
+import com.creative.FingerOximeter.IFingerOximeterCallBack;
+import com.creative.base.BLEReader;
+import com.creative.base.BLESender;
+import com.creative.base.BaseDate.Wave;
+import com.creative.bluetooth.ble.BLEOpertion;
+import com.creative.bluetooth.ble.IBLECallBack;
+
 public class sdkPlugin extends CordovaPlugin {
 
     @Override
