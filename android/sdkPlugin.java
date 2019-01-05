@@ -134,6 +134,7 @@ public class sdkPlugin extends CordovaPlugin {
 
         } else if(action.equals("CMI_POD1W_Subscribe")){
 
+        	CMI_POD1W_Subscribe_Callback = callbackContext;
         	mFingerOximeter = new FingerOximeter(new BLEReader(mBleOpertion), new BLESender(mBleOpertion), new FingerOximeterCallBack());
 			mFingerOximeter.Start();
 
@@ -207,7 +208,9 @@ public class sdkPlugin extends CordovaPlugin {
 			    Log.d("Bundle Debug", key + " = \"" + data.get(key) + "\"");
 			}
 
-			PluginResult result = new PluginResult(PluginResult.Status.OK, String.valueOf(nSpO2));
+			String dataString = "{SpO2:" + String.valueOf(nSpO2) + ",pulse:" + String.valueOf(nPR) + "}";
+
+			PluginResult result = new PluginResult(PluginResult.Status.OK, dataString);
 			result.setKeepCallback(true);
 			CMI_POD1W_Subscribe_Callback.sendPluginResult(result);
 		}
