@@ -32,7 +32,9 @@ public class sdkPlugin extends CordovaPlugin {
 	private FingerOximeter mFingerOximeter;
 
 	/* Callback linked to giving data back from CMI_POD1W device */
-	private CallbackContext CMI_POD1W_Callback = null;
+	private CallbackContext CMI_POD1W_Connect_Callback = null;
+	private CallbackContext CMI_POD1W_Subscribe_Callback = null;
+	private boolean CMI_POD1W_Connected = false;
 
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -101,7 +103,35 @@ public class sdkPlugin extends CordovaPlugin {
 
             return true;
 
-        } else {
+        } else if(action.equals("CMI_POD1W_Connect")){
+
+        	Log.d("SynsorMed","*** Going to attempt to connect to CMI_POD1W");
+
+        	new Thread() {
+
+				@Override
+				public void run() {
+					super.run();
+					/*The connection function is called with only one value passed, so we get the 0 element for the address*/
+					final String podAddress = data.getString(0);
+					Log.d("AminLog","About to try to connect to address: " + podAddress);
+					mBleOpertion.connect(podAddress);
+				}
+			}.start();
+
+			CMI_POD1W_Connect_Callback = callbackContext;
+
+        	return true;
+
+        } else if(action.equals("CMI_POD1W_Subscribe")){
+
+        	mFingerOximeter = new FingerOximeter(new BLEReader(mBleOpertion), new BLESender(mBleOpertion), new FingerOximeterCallBack());
+			mFingerOximeter.Start();
+
+        	return true;
+
+        }
+        else {
         	return false;
         }
     }
@@ -121,14 +151,16 @@ public class sdkPlugin extends CordovaPlugin {
 
 		@Override
 		public void onConnected(blePort port) {
-			Log.d("AminLog","Successfully connected BLE");
-			mFingerOximeter = new FingerOximeter(new BLEReader(mBleOpertion), new BLESender(mBleOpertion), new FingerOximeterCallBack());
-			mFingerOximeter.Start();
+			Log.d("Synsormed","*** Successfully connected BLE with CMI_POD1W");
+			CMI_POD1W_Connected = true;
+			final String connectionString = "{address:" + port._device.getAddress() + ",name:" + port._device.getName().trim() + "}";
+			CMI_POD1W_Connect_Callback.success(connectionString);
 		}
 
 		@Override
 		public void onConnectFail() {
-			Log.d("AminLog", "Connection failed to BLE");
+			Log.d("Synsormed", "*** Connection failed to BLE with CMI_POD1W");
+			CMI_POD1W_Connect_Callback.error("Failed to connect to CMI_POD1W");
 		}
 
 		@Override
