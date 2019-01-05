@@ -122,7 +122,7 @@ public class sdkPlugin extends CordovaPlugin {
 					public void run() {
 						super.run();
 						Log.d("AminLog","About to try to connect to address: " + finalPodAddress);
-						mBleOpertion.connect(finalPpodAddress);
+						mBleOpertion.connect(finalPodAddress);
 					}
 				}.start();
 
