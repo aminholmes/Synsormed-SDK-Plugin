@@ -106,20 +106,28 @@ public class sdkPlugin extends CordovaPlugin {
         } else if(action.equals("CMI_POD1W_Connect")){
 
         	Log.d("SynsorMed","*** Going to attempt to connect to CMI_POD1W");
+        	final String podAddress = null;
 
-        	new Thread() {
+        	try{
+        		/*The connection function is called with only one value passed, so we get the 0 element for the address*/
+        		podAddress = data.getString(0);
+        	}catch(JSONException e){
+        		Log.d("Synsormed","** Exception parsing JSON: " + e);
+        	}
 
-				@Override
-				public void run() {
-					super.run();
-					/*The connection function is called with only one value passed, so we get the 0 element for the address*/
-					final String podAddress = data.getString(0);
-					Log.d("AminLog","About to try to connect to address: " + podAddress);
-					mBleOpertion.connect(podAddress);
-				}
-			}.start();
+        	if(podAddress != null){
+        		new Thread() {
+					@Override
+					public void run() {
+						super.run();
+						Log.d("AminLog","About to try to connect to address: " + podAddress);
+						mBleOpertion.connect(podAddress);
+					}
+				}.start();
 
-			CMI_POD1W_Connect_Callback = callbackContext;
+				CMI_POD1W_Connect_Callback = callbackContext;
+        	}
+        	
 
         	return true;
 
