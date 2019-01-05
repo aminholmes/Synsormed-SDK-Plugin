@@ -106,7 +106,7 @@ public class sdkPlugin extends CordovaPlugin {
         } else if(action.equals("CMI_POD1W_Connect")){
 
         	Log.d("SynsorMed","*** Going to attempt to connect to CMI_POD1W");
-        	private String podAddress = null;
+        	String podAddress = null;
 
         	try{
         		/*The connection function is called with only one value passed, so we get the 0 element for the address*/
