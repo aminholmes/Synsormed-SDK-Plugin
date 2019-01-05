@@ -116,12 +116,13 @@ public class sdkPlugin extends CordovaPlugin {
         	}
 
         	if(podAddress != null){
+        		final String finalPodAddress = podAddress;
         		new Thread() {
 					@Override
 					public void run() {
 						super.run();
-						Log.d("AminLog","About to try to connect to address: " + podAddress);
-						mBleOpertion.connect(podAddress);
+						Log.d("AminLog","About to try to connect to address: " + finalPodAddress);
+						mBleOpertion.connect(finalPpodAddress);
 					}
 				}.start();
 
