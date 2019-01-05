@@ -166,7 +166,7 @@ public class sdkPlugin extends CordovaPlugin {
 			    Log.d("Bundle Debug", key + " = \"" + data.get(key) + "\"");
 			}
 
-			CMI_POD1W_Callback.success(data.get("nSpO2"));
+			CMI_POD1W_Callback.success(String.valueOf(nSpO2));
 		}
 
 		@Override
