@@ -34,6 +34,8 @@ public class sdkPlugin extends CordovaPlugin {
 	/* Callback linked to giving data back from CMI_POD1W device */
 	private CallbackContext CMI_POD1W_Connect_Callback = null;
 	private CallbackContext CMI_POD1W_Subscribe_Callback = null;
+	private CallbackContext CMI_POD1W_Disconnect_Callback = null;
+	private CallbackContext CMI_POD1W_Unsubscribe_Callback = null;
 	private boolean CMI_POD1W_Connected = false;
 
 	@Override
@@ -55,48 +57,16 @@ public class sdkPlugin extends CordovaPlugin {
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		if (mBleOpertion != null) {
+			mBleOpertion.disConnect();
+			mBleOpertion.closeACSUtility();
+		}
 	}
 
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
 
-    	
-
-        if (action.equals("sayHello")) {
-
-        	Log.d("AminLog", "I am trying to say hello");
-
-        	if(mBleOpertion.isCanUseBLE(context)){
-        		Log.d("AminLog", "BLE can be used");
-
-
-        		//mBleOpertion.startDiscover();
-
-        	}else{
-        		Log.d("AminLog", "BLE no where");
-        	}
-
-			new Thread() {
-
-				@Override
-				public void run() {
-					super.run();
-					final String podString = "84:EB:18:7B:79:38";
-					Log.d("AminLog","About to try to connect to address: " + podString);
-					mBleOpertion.connect(podString);
-				}
-			}.start();
-
-			/*
-            String message = "Hello, Amin" ;
-            callbackContext.success(message);
-            */
-
-            CMI_POD1W_Connect_Callback = callbackContext;
-
-            return true;
-
-        } else if (action.equals("init")){
+		if (action.equals("init")){
             
             Log.d("Aminlog","I am waiting for the init to finish");
             callbackContext.success();
@@ -132,14 +102,41 @@ public class sdkPlugin extends CordovaPlugin {
 
         	return true;
 
-        } else if(action.equals("CMI_POD1W_Subscribe")){
+        } else if(action.equals("CMI_POD1W_Disconnect")){
 
-        	CMI_POD1W_Subscribe_Callback = callbackContext;
-        	mFingerOximeter = new FingerOximeter(new BLEReader(mBleOpertion), new BLESender(mBleOpertion), new FingerOximeterCallBack());
-			mFingerOximeter.Start();
+        	if (mBleOpertion != null) {
+				mBleOpertion.disConnect();
+				mBleOpertion.closeACSUtility();
+			}
+
+			CMI_POD1W_Disconnect_Callback = callbackContext;
+			CMI_POD1W_Disconnect_Callback.success("Disconnect Complete");
 
         	return true;
 
+        } else if(action.equals("CMI_POD1W_Subscribe")){
+
+        	CMI_POD1W_Subscribe_Callback = callbackContext;
+
+        	if(CMI_POD1W_Connected){ 		
+        		mFingerOximeter = new FingerOximeter(new BLEReader(mBleOpertion), new BLESender(mBleOpertion), new FingerOximeterCallBack());
+				mFingerOximeter.Start();
+        	}else{
+        		CMI_POD1W_Subscribe_Callback.error("CMI_POD1W not connected so cannot subscribe");
+        	}
+        	
+        	return true;
+
+        } else if(action.equals("CMI_POD1W_Unsubscribe")){
+        	CMI_POD1W_Unsubscribe_Callback = callbackContext;
+        	if(mFingerOximeter != null){
+        		mFingerOximeter.Stop();
+        		mFingerOximeter = null;
+        		CMI_POD1W_Unsubscribe_Callback.success("CMI_POD1W Subscription stopped");
+        	}else{
+        		CMI_POD1W_Unsubscribe_Callback.error("CMI_POD1W cannot unsubscribe, not currently subscribed");
+        	}
+        	return true;
         }
         else {
         	return false;
@@ -169,7 +166,9 @@ public class sdkPlugin extends CordovaPlugin {
 		@Override
 		public void onConnectFail() {
 			Log.d("Synsormed", "*** Connection failed to BLE with CMI_POD1W");
-			CMI_POD1W_Connect_Callback.error("Failed to connect to CMI_POD1W");
+			PluginResult result = new PluginResult(PluginResult.Status.ERROR, "Failed to connect to CMI_POD1W");
+			result.setKeepCallback(true);
+			CMI_POD1W_Connect_Callback.sendPluginResult(result);
 		}
 
 		@Override
@@ -178,7 +177,7 @@ public class sdkPlugin extends CordovaPlugin {
 
 		@Override
 		public void onDisConnect(blePort prot) {
-			Log.d("AminLog","Was disconnected to BLE");
+			Log.d("Synsormed","Was disconnected to BLE");
 		}
 
 		@Override
