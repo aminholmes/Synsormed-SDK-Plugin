@@ -88,6 +88,9 @@ public class sdkPlugin extends CordovaPlugin {
         } else if (action.equals("init")){
             
             Log.d("Aminlog","I am waiting for the init to finish");
+            callbackContext.success();
+
+            return true;
 
         } else {
         	return false;
