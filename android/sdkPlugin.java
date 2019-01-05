@@ -92,7 +92,7 @@ public class sdkPlugin extends CordovaPlugin {
             callbackContext.success(message);
             */
 
-            CMI_POD1W_Callback = callbackContext;
+            CMI_POD1W_Connect_Callback = callbackContext;
 
             return true;
 
@@ -201,7 +201,7 @@ public class sdkPlugin extends CordovaPlugin {
 
 			PluginResult result = new PluginResult(PluginResult.Status.OK, String.valueOf(nSpO2));
 			result.setKeepCallback(true);
-			CMI_POD1W_Callback.sendPluginResult(result);
+			CMI_POD1W_Subscribe_Callback.sendPluginResult(result);
 		}
 
 		@Override
