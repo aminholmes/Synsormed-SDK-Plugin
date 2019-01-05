@@ -13,6 +13,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.PluginResult;
 
 import com.bde.parentcyTransport.ACSUtility.blePort;
 import com.creative.FingerOximeter.FingerOximeter;
@@ -166,7 +167,9 @@ public class sdkPlugin extends CordovaPlugin {
 			    Log.d("Bundle Debug", key + " = \"" + data.get(key) + "\"");
 			}
 
-			CMI_POD1W_Callback.success(String.valueOf(nSpO2));
+			PluginResult result = new PluginResult(PluginResult.Status.OK, String.valueOf(nSpO2));
+			result.setKeepCallback(true);
+			CMI_POD1W_Callback.sendPluginResult(result);
 		}
 
 		@Override
