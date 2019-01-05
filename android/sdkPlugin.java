@@ -85,10 +85,12 @@ public class sdkPlugin extends CordovaPlugin {
 
             return true;
 
-        } else {
+        } else if (action.equals("init")){
             
-            return false;
+            Log.d("Aminlog","I am waiting for the init to finish");
 
+        } else {
+        	return false;
         }
     }
 
