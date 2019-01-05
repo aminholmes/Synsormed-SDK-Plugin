@@ -28,6 +28,7 @@ public class sdkPlugin extends CordovaPlugin {
 
 	private BLEOpertion mBleOpertion;
 	private Context context;
+	private FingerOximeter mFingerOximeter;
 
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -113,6 +114,8 @@ public class sdkPlugin extends CordovaPlugin {
 		@Override
 		public void onConnected(blePort port) {
 			Log.d("AminLog","Successfully connected BLE");
+			mFingerOximeter = new FingerOximeter(new BLEReader(mBleOpertion), new BLESender(mBleOpertion), new FingerOximeterCallBack());
+			mFingerOximeter.Start();
 		}
 
 		@Override
@@ -136,5 +139,38 @@ public class sdkPlugin extends CordovaPlugin {
 
 
     }
+
+    class FingerOximeterCallBack implements IFingerOximeterCallBack {
+
+		@Override
+		public void OnGetSpO2Param(int nSpO2, int nPR, float fPI, boolean nStatus, int nMode, float nPower) {			
+			Log.d("Aminlog","I just got an SPO2 Param");
+			Bundle data = new Bundle();
+			data.putInt("nSpO2", nSpO2);
+			data.putInt("nPR", nPR);
+			data.putFloat("fPI", fPI);
+			data.putFloat("nPower", nPower);
+			data.putBoolean("nStatus", nStatus); 
+			data.putInt("nMode", nMode);
+			data.putFloat("nPower", nPower);
+			
+			for (String key : data.keySet())
+			{
+			    Log.d("Bundle Debug", key + " = \"" + data.get(key) + "\"");
+			}
+		}
+
+		@Override
+		public void OnGetSpO2Wave(List<Wave> wave) {
+		}
+
+		@Override
+		public void OnGetDeviceVer(int nHWMajor, int nHWMinor, int nSWMajor, int nSWMinor) {
+		}
+
+		@Override
+		public void OnConnectLose() {
+		}
+	}
 
 }
