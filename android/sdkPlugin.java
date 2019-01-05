@@ -63,7 +63,7 @@ public class sdkPlugin extends CordovaPlugin {
         		Log.d("AminLog", "BLE can be used");
 
 
-        		mBleOpertion.startDiscover();
+        		//mBleOpertion.startDiscover();
 
         	}else{
         		Log.d("AminLog", "BLE no where");
