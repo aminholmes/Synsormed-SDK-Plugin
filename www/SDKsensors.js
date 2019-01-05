@@ -10,6 +10,11 @@ sdkPlugin.sayHello = function()
 
 }
 
+sdkPlugin.init = function()
+{
+	console.log("*** I am going to let init");
+	//exec(null,null,"sdkPlugin", "init", []);
+}
 
 
 module.exports = sdkPlugin;
