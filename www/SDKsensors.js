@@ -3,10 +3,10 @@ var exec = require("cordova/exec");
 var sdkPlugin = {};
 
 
-sdkPlugin.sayHello = function()
+sdkPlugin.sayHello = function(success,fail)
 {
 	console.log("I am about to go to native");
-	exec(null, null, "sdkPlugin", "sayHello", []);
+	exec(success, fail, "sdkPlugin", "sayHello", []);
 
 }
 

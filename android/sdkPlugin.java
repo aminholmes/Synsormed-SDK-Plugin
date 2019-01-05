@@ -30,6 +30,9 @@ public class sdkPlugin extends CordovaPlugin {
 	private Context context;
 	private FingerOximeter mFingerOximeter;
 
+	/* Callback linked to giving data back from CMI_POD1W device */
+	private CallbackContext CMI_POD1W_Callback = null;
+
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova,webView);
@@ -81,8 +84,12 @@ public class sdkPlugin extends CordovaPlugin {
 				}
 			}.start();
 
+			/*
             String message = "Hello, Amin" ;
             callbackContext.success(message);
+            */
+
+            CMI_POD1W_Callback = callbackContext;
 
             return true;
 
@@ -158,6 +165,8 @@ public class sdkPlugin extends CordovaPlugin {
 			{
 			    Log.d("Bundle Debug", key + " = \"" + data.get(key) + "\"");
 			}
+
+			CMI_POD1W_Callback.success(data.get("nSpO2"));
 		}
 
 		@Override
