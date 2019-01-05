@@ -35,6 +35,7 @@
 			<activity
 				android:name="com.synsormed.mobile.sdkPlugin">
 			</activity>
+			<service android:name="com.bde.parentcyTransport.ACSUtilityService" android:enabled="true" ></service>
 		</config-file>
 		<config-file target="AndroidManifest.xml" parent="/manifest">
 			<uses-permission android:name="android.permission.INTERNET" />
@@ -43,9 +44,6 @@
 			<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 			<uses-permission android:name="android.permission.BLUETOOTH" />
 			<uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
-			<applicatiion>
-				<service android:name="com.bde.parentcyTransport.ACSUtilityService" android:enabled="true" ></service>
-			</applicatiion>
 		</config-file>
 <!--		
 		<framework src="com.android.support:appcompat-v7:22.2.1" />
