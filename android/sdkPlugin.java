@@ -207,7 +207,7 @@ public class sdkPlugin extends CordovaPlugin {
 			    Log.d("Bundle Debug", key + " = \"" + data.get(key) + "\"");
 			}
 
-			String dataString = "{SpO2:" + String.valueOf(nSpO2) + ",pulse:" + String.valueOf(nPR) + "}";
+			String dataString = "{\"SpO2\":" + String.valueOf(nSpO2) + ",\"pulse\":" + String.valueOf(nPR) + "}";
 
 			PluginResult result = new PluginResult(PluginResult.Status.OK, dataString);
 			result.setKeepCallback(true);
