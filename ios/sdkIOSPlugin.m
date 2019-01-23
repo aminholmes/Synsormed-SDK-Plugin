@@ -39,8 +39,10 @@
 
 - (void) CMI_POD1W_Disconnect:(CDVInvokedUrlCommand *) command
 {
-
+	[[CRCreativeSDK sharedInstance] disconnectDevice:mainPeripheral];
 	CMI_POD1W_Disconnect_Callback = command.callbackId;
+	[[self commandDelegate]sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Disconnected OK"]
+								 callbackId:CMI_POD1W_Disconnect_Callback];
 
 }
 
@@ -48,6 +50,13 @@
 {
 
 	CMI_POD1W_Subscribe_Callback = command.callbackId;
+	if(CMI_POD1W_Connected){
+		[[CRSpo2 sharedInstance] SetParamAction:TRUE port:mainPeripheral];
+		
+		[[CRSpo2 sharedInstance] SetWaveAction:TRUE port:mainPeripheral];
+	}else{
+		[[self commandDelegate]sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Tried to subscribe without being connected"] callbackId:CMI_POD1W_Subscribe_Callback];
+	}
 
 }
 
@@ -55,6 +64,14 @@
 {
 
 	CMI_POD1W_Unsubscribe_Callback = command.callbackId;
+	[[CRSpo2 sharedInstance] SetParamAction:FALSE port:mainPeripheral];
+	
+	[[CRSpo2 sharedInstance] SetWaveAction:FALSE port:mainPeripheral];
+	
+	[[CRCreativeSDK sharedInstance] disconnectDevice:mainPeripheral];
+	
+	CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Disconnected"];
+	[self.commandDelegate sendPluginResult:pluginResult callbackId:CMI_POD1W_Unsubscribe_Callback];
 
 }
 
@@ -68,6 +85,7 @@
 		NSLog(@"The UUID is: %@", [device.myUUID UUIDString]);
 		if ([device.myUUID isEqual:mainUUID]) {
 			NSLog(@"Found a UUID that matches so going to try to connect");
+			mainPeripheral = device;
 			[[CRCreativeSDK sharedInstance] connectDevice:device];
 			break;
 		}
@@ -85,24 +103,34 @@
 -(void)crManager:(CRCreativeSDK *)crManager OnConnected:(CreativePeripheral *)peripheral withResult:(resultCodeType)result CurrentCharacteristic:(CBCharacteristic *)theCurrentCharacteristic{
 	NSLog(@"Inside the native OnConnected function");
     if (result == RESULT_SUCCESS) {
+		CMI_POD1W_Connected = true;
         NSLog(@"*** connection success");
-        /*
-        [[CRSpo2 sharedInstance] QueryDeviceVer:currentPort];
-        
-        [[CRSpo2 sharedInstance] SetParamAction:TRUE port:currentPort];
-        
-        [[CRSpo2 sharedInstance] SetWaveAction:TRUE port:currentPort];
-        */
-        
-        
+		[[self commandDelegate]sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"]
+									 callbackId:CMI_POD1W_Connect_Callback];
     }
     
 }
 
 -(void)crManager:(CRCreativeSDK *)crManager OnConnectFail:(CBPeripheral *)port{
     NSLog(@"*** Connection failed");
-
+	[[self commandDelegate]sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Failed to connect"]
+								 callbackId:CMI_POD1W_Connect_Callback];
         
+}
+
+-(void)crSpo2:(CRSpo2 *)crSpo2 OnGetSpo2Param:(BOOL)bProbeOff spo2Value:(int)nSpO2 prValue:(int)nPR piValue:(int)nPi mMode:(int)nMode batPower:(int)nPower spo2Status:(int)nStatus gradePower:(int)nGradePower
+{
+	NSString *returnString = [NSString stringWithFormat:@"{\"SpO2\":%d,\"pulse\":%d}",nSpO2,nPR];
+	NSLog(@"The returnString is: %@",returnString);
+	
+	CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:returnString];
+	[pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+	[self.commandDelegate sendPluginResult:pluginResult callbackId:CMI_POD1W_Subscribe_Callback];
+	
+	/*spo2Num.text = [NSString stringWithFormat:@"%d",nSpO2];
+	piNum.text = [NSString stringWithFormat:@"%d",nPi];
+	pulseNum.text = [NSString stringWithFormat:@"%d",nPR];*/
+	
 }
 
 
