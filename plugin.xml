@@ -91,7 +91,7 @@
 		<header-file src="ios/lib/CRCommon.h" />
 		<header-file src="ios/lib/CRSpo2.h" />
 
-		<framework src="ios/lib/libCreativeHealthSDK.a" custom="true" />
+		<framework src="ios/lib/libCreativeHealthSDK.a" custom="true" weak="true"/>
 
 
 		<config-file target="config.xml" parent="/*">
