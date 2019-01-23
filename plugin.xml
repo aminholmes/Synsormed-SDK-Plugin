@@ -86,6 +86,14 @@
 	    <header-file src="ios/sdkIOSPlugin.h" />
 		<source-file src="ios/sdkIOSPlugin.m" />
 
+		<header-file src="ios/lib/CreativePeripheral.h" />
+		<header-file src="ios/lib/CRCreativeSDK.h" />
+		<header-file src="ios/lib/CRCommon.h" />
+		<header-file src="ios/lib/CRSpo2.h" />
+
+		<framework src="ios/lib/libCreativeHealthSDK.a" />
+
+
 		<config-file target="config.xml" parent="/*">
 			<feature name="sdkPlugin">
 				<param name="ios-package" value="sdkIOSPlugin" />
