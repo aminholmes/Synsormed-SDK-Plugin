@@ -91,10 +91,7 @@
 		<header-file src="ios/lib/CRCommon.h" />
 		<header-file src="ios/lib/CRSpo2.h" />
 
-		<framework src="CoreText.framework" />
-
-		<framework src="ios/lib/libCreativeHealthSDK.a" custom="true" />
-
+		<source-file src="ios/lib/libCreativeHealthSDK.a" framework="true" />
 
 		<config-file target="config.xml" parent="/*">
 			<feature name="sdkPlugin">
