@@ -1,8 +1,8 @@
 #import <Cordova/CDVPlugin.h>
-#import <CreativePeripheral.h>
-#import <CRCreativeSDK.h>
-#import <CRCommon.h>
-#import <CRSpo2.h>
+#import "CreativePeripheral.h"
+#import "CRCreativeSDK.h"
+#import "CRCommon.h"
+#import "CRSpo2.h"
 
 
 @interface sdkIOSPlugin : CDVPlugin
