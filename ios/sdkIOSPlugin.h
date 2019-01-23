@@ -15,6 +15,10 @@
 
 	BOOL CMI_POD1W_Connected;
 	
+	NSMutableArray *foundDevices;
+	
+	NSUUID *mainUUID;
+	
 }
 
 
