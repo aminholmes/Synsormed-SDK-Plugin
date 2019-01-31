@@ -160,7 +160,9 @@ public class sdkPlugin extends CordovaPlugin {
 		public void onConnected(blePort port) {
 			Log.d("Synsormed","*** Successfully connected BLE with CMI_POD1W");
 			CMI_POD1W_Connected = true;
-			CMI_POD1W_Connect_Callback.success("Successfully Connected");
+			PluginResult result = new PluginResult(PluginResult.Status.OK, "Successfully Connected");
+			result.setKeepCallback(true);
+			CMI_POD1W_Connect_Callback.sendPluginResult(result);
 		}
 
 		@Override
