@@ -105,8 +105,8 @@ public class sdkPlugin extends CordovaPlugin {
         } else if(action.equals("CMI_POD1W_Disconnect")){
 
         	if (mBleOpertion != null) {
-				mBleOpertion.disConnect();
 				mBleOpertion.closeACSUtility();
+				mBleOpertion.disConnect();			
 			}
 
 			CMI_POD1W_Disconnect_Callback = callbackContext;
