@@ -103,11 +103,14 @@ public class sdkPlugin extends CordovaPlugin {
         	return true;
 
         } else if(action.equals("CMI_POD1W_Disconnect")){
-
+		try{
         	if (mBleOpertion != null) {
 				mBleOpertion.closeACSUtility();
 				mBleOpertion.disConnect();			
 			}
+		}catch(Exception e){
+			Log.d("AminLog","Error with disconnect");
+		}
 
 			CMI_POD1W_Disconnect_Callback = callbackContext;
 			CMI_POD1W_Disconnect_Callback.success("Disconnect Complete");
