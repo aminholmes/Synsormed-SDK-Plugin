@@ -105,7 +105,7 @@ public class sdkPlugin extends CordovaPlugin {
         } else if(action.equals("CMI_POD1W_Disconnect")){
 		try{
         	if (mBleOpertion != null) {
-				mBleOpertion.closeACSUtility();
+				//mBleOpertion.closeACSUtility();
 				mBleOpertion.disConnect();			
 			}
 		}catch(Exception e){
