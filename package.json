@@ -1,4 +1,7 @@
 {
+  "name": "Synsormed-SDK-Plugin",
+  "description": "",
+  "version": "1.0.0",
   "dependencies": {
     "cordova": "5.*",
     "shelljs": "^0.5.1"
